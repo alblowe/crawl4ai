@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import BrowserConfig, CrawlerRunConfig
 
-app = FastAPI()  # ← You were missing this line
+app = FastAPI()
 
 class CrawlRequest(BaseModel):
     url: str
@@ -11,11 +11,11 @@ class CrawlRequest(BaseModel):
 @app.post("/crawl")
 async def crawl_url(data: CrawlRequest):
     config = BrowserConfig()
+
     run = CrawlerRunConfig(
-        magic_mode=True,
         css_selector="body",
-        stealth=True,
-        headless=True
+        wait_for_images=True,
+        screenshot=False
     )
 
     async with AsyncWebCrawler(config=config) as crawler:
