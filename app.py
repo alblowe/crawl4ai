@@ -13,10 +13,11 @@ async def crawl_url(data: CrawlRequest):
     config = BrowserConfig()
 
     run = CrawlerRunConfig(
-        css_selector="body",
-        wait_for_images=True,
-        screenshot=False
-    )
+    css_selector="body",
+    wait_for_images=True,
+    screenshot=False
+)
+
 
     async with AsyncWebCrawler(config=config) as crawler:
         result = await crawler.arun(url=data.url, config=run)
