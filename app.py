@@ -1,17 +1,18 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import BrowserConfig, CrawlerRunConfig
 
-app = FastAPI()
-
-class CrawlRequest(BaseModel):
-    url: str
-
 @app.post("/crawl")
 async def crawl_url(data: CrawlRequest):
-    config = BrowserConfig(stealth=True)
-    run = CrawlerRunConfig(magic_mode=True, css_selector="body")
+    # Just basic browser config (no stealth here anymore)
+    config = BrowserConfig()
+
+    # Stealth, magic mode, etc now go here:
+    run = CrawlerRunConfig(
+        magic_mode=True,
+        css_selector="body",
+        stealth=True,         # ← moved here
+        headless=True         # ← optional, also safer on server
+    )
 
     async with AsyncWebCrawler(config=config) as crawler:
         result = await crawler.arun(url=data.url, config=run)
