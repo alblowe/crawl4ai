@@ -1,3 +1,4 @@
+app = FastAPI()
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import BrowserConfig, CrawlerRunConfig
 
